@@ -16,6 +16,8 @@ public class ProductController {
         product.setId(id);
         product.setName(name);
         product.setPrice(price);
+
+        list.add(product);
     }
 
     public void removeProduct(Product product) {
@@ -50,8 +52,8 @@ public class ProductController {
                 }
             }
         }
-        
-        return "Success add product";
+
+        return "Success save product";
     }
 
 }

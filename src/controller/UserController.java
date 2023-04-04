@@ -53,8 +53,8 @@ public class UserController {
                 }
             }
         }
-        
-        return "Succes add user";
+
+        return "Succes save user";
     }
 
 }

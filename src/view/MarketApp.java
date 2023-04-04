@@ -9,9 +9,11 @@ public class MarketApp {
         ProductController productController = new ProductController();
 
         userController.addUser("01", "Fath", "Fath");
-        userController.addUser("02", "Mimik", "Mimik");
+        userController.addUser("02", "Nafal", "Nafal");
         userController.saveUser();
 
+        productController.addProduct("01", "Monitor", 1_600_000);
+        productController.addProduct("02", "Keyboard", 600_000);
         productController.saveProduct();
     }
 }
