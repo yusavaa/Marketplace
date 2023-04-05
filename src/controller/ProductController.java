@@ -15,10 +15,7 @@ public class ProductController {
     private ArrayList<Product> productList = new ArrayList<>();
 
     public void addProduct(String id, String name, int price) {
-        Product product = new Product();
-        product.setId(id);
-        product.setName(name);
-        product.setPrice(price);
+        Product product = new Product(id, name, price);
 
         productList.add(product);
     }

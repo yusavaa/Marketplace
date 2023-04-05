@@ -2,12 +2,13 @@ package controller;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+
+import model.User;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
 import java.util.ArrayList;
-
-import model.user.User;
 
 public class UserController {
 
@@ -15,11 +16,7 @@ public class UserController {
     private ArrayList<User> userList = new ArrayList<>();
 
     public void addUser(String id, String username, String password) {
-        User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setPasswrod(password);
-        user.setBalance(0);
+        User user = new User(id, username, password);
 
         userList.add(user);
     }

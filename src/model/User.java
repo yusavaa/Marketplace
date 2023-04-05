@@ -1,4 +1,4 @@
-package model.user;
+package model;
 
 public class User {
 
@@ -6,6 +6,15 @@ public class User {
     private String username;
     private String password;
     private int balance;
+
+    public User() {}
+
+    public User(String id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        balance = 0;
+    }
 
     public String getId() {
         return id;

@@ -12,7 +12,6 @@ public class MarketApp {
         // userController.addUser("02", "Nafal", "Nafal");
         // System.out.println(userController.saveUser());
         // System.out.println(userController.loadUser());
-        userController.loadUser();
         System.out.println(userController.getSize());
 
         // productController.addProduct("01", "Monitor", 1_600_000);
