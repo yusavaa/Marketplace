@@ -2,14 +2,17 @@ package controller;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 import model.Product;
 
 public class ProductController {
 
-    private ArrayList<Product> list = new ArrayList<>();
+    XStream xStream = new XStream(new StaxDriver());
+    private ArrayList<Product> productList = new ArrayList<>();
 
     public void addProduct(String id, String name, int price) {
         Product product = new Product();
@@ -17,27 +20,30 @@ public class ProductController {
         product.setName(name);
         product.setPrice(price);
 
-        list.add(product);
+        productList.add(product);
+    }
+
+    public int getSize() {
+        return productList.size();
     }
 
     public void removeProduct(Product product) {
-        list.remove(product);
+        productList.remove(product);
     }
 
     public void clearProduct() {
-        list.clear();
+        productList.clear();
     }
 
     public String saveProduct() {
 
-        XStream xStream = new XStream(new StaxDriver());
-        String sxml = xStream.toXML(list);
+        String sxml = xStream.toXML(productList);
         FileOutputStream file = null;
 
         try {
 
-            file = new FileOutputStream("src"+ File.separator +"database"+ File.separator +"Product.xml");
             byte[] bytes = sxml.getBytes("UTF-8");
+            file = new FileOutputStream("src" + File.separator + "database" + File.separator + "Product.xml");
             file.write(bytes);
 
         } catch (Exception e) {
@@ -54,6 +60,30 @@ public class ProductController {
         }
 
         return "Success save product";
+    }
+
+    public String loadProduct() {
+
+        FileInputStream file;
+        try {
+
+            file = new FileInputStream("src" + File.separator + "database" + File.separator + "Product.xml");
+
+            String sxml = "";
+            int isi;
+            char c;
+            while ((isi = file.read()) != -1) {
+                c = (char) isi;
+                sxml += c;
+            }
+
+            productList = (ArrayList<Product>) xStream.fromXML(sxml);
+            file.close();
+            return "Succes load user";
+
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
 }
