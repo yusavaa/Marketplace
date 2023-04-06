@@ -2,17 +2,18 @@ package controller;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import model.User;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 
+import model.User;
+
 public class UserController {
 
-    XStream xStream = new XStream(new StaxDriver());
+    private XStream xStream = new XStream(new StaxDriver());
     private ArrayList<User> userList = new ArrayList<>();
 
     public void addUser(String id, String username, String password) {
@@ -21,20 +22,20 @@ public class UserController {
         userList.add(user);
     }
 
-    public int getSize() {
-        return userList.size();
-    }
-
     public User getUser(int index) {
         return userList.get(index);
     }
-
+    
     public void removeUser(User user) {
         userList.remove(user);
     }
-
+    
     public void clearUser() {
         userList.clear();
+    }
+    
+    public int getListSize() {
+        return userList.size();
     }
 
     public String saveUser() {
@@ -56,6 +57,7 @@ public class UserController {
     
     public String loadUser() {
 
+        xStream.addPermission(AnyTypePermission.ANY);
         FileInputStream fileInput;
         try {
 

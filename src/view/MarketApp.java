@@ -11,13 +11,16 @@ public class MarketApp {
         // userController.addUser("01", "Fath", "Fath");
         // userController.addUser("02", "Nafal", "Nafal");
         // System.out.println(userController.saveUser());
-        // System.out.println(userController.loadUser());
-        System.out.println(userController.getSize());
-
+        System.out.println(userController.loadUser());
+        System.out.println(userController.getListSize());
+        System.out.println(userController.getUser(0));
+        System.out.println(userController.getUser(1));
+        
         // productController.addProduct("01", "Monitor", 1_600_000);
         // productController.addProduct("02", "Keyboard", 600_000);
         // productController.saveProduct();
-        // System.out.println(productController.loadProduct());
-        // System.out.println(productController.getSize());
+        System.out.println(productController.loadProduct());
+        System.out.println(productController.getListSize());
+        System.out.println(productController.getProduct(1));
     }
 }

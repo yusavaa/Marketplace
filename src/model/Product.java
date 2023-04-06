@@ -6,8 +6,6 @@ public class Product {
     private String name;
     private int price;
 
-    public Product() {}
-
     public Product(String id, String name, int price) {
         this.id = id;
         this.name = name;
@@ -36,6 +34,10 @@ public class Product {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String toString() {
+        return name;
     }
 
 }

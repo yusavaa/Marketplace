@@ -2,6 +2,8 @@ package controller;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
@@ -20,8 +22,8 @@ public class ProductController {
         productList.add(product);
     }
 
-    public int getSize() {
-        return productList.size();
+    public Product getProduct(int index) {
+        return productList.get(index);
     }
 
     public void removeProduct(Product product) {
@@ -30,6 +32,10 @@ public class ProductController {
 
     public void clearProduct() {
         productList.clear();
+    }
+
+    public int getListSize() {
+        return productList.size();
     }
 
     public String saveProduct() {
@@ -61,6 +67,7 @@ public class ProductController {
 
     public String loadProduct() {
 
+        xStream.addPermission(AnyTypePermission.ANY);
         FileInputStream file;
         try {
 
@@ -76,7 +83,7 @@ public class ProductController {
 
             productList = (ArrayList<Product>) xStream.fromXML(sxml);
             file.close();
-            return "Succes load user";
+            return "Succes load product";
 
         } catch (Exception e) {
             return e.getMessage();
