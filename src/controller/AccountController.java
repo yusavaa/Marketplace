@@ -1,20 +1,15 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Product;
 import model.User;
 import util.LoopUtil;
 
-public class AccountController extends LoopUtil {
+public class AccountController {
 
-    private String logInAccount;
-    private HashMap<String, String> account = new HashMap<>();
-    private ArrayList<Product> shoppingCart = new ArrayList<>();
-
-    private ProductController productController = new ProductController();
     private UserController userController = new UserController();
+    private HashMap<String, String> account = new HashMap<>();
+    static User targetUser;
 
     public AccountController() {
         mappingAccount();
@@ -23,6 +18,14 @@ public class AccountController extends LoopUtil {
     public void mappingAccount() {
         for (User i : userController.loadUser())
             account.put(i.getUsername(), i.getPasswrod());
+    }
+
+    public User getTargetUser() {
+        return targetUser;
+    }
+
+    public void setTargetUser(String username) {
+        targetUser = userController.findUser(username);
     }
 
     public String register(String username, String password) {
@@ -47,59 +50,27 @@ public class AccountController extends LoopUtil {
         if (!registered)
             return "Username not found";
         if (account.get(username).equals(password)) {
-            logInAccount = username;
-            setLoop(false);
+            setTargetUser(username);
+            LoopUtil.setLoop(false);
             return "Login success";
         }
         return "Incorrect username or password";
     }
 
-    public String topUpBalance(int balance) {
-        if (userController.findUser(logInAccount) == null)
+    public int getBalance() {
+        return targetUser.getBalance();
+    }
+
+    public String setBalance(int balance) {
+        if (targetUser == null)
             return "Username not found";
         if (balance > 0) {
-            balance += userController.findUser(logInAccount).getBalance();
-            userController.findUser(logInAccount).setBalance(balance);
+            balance += this.targetUser.getBalance();
+            targetUser.setBalance(balance);
             userController.saveUser();
             return "Top Up success";
         }
         return "Minimum Top Up is IDR 1";
-    }
-
-    public String addProductToCart(int index) {
-        shoppingCart.add(productController.loadProduct().get(index - 1));
-        return "Success add product to cart";
-    }
-
-    public ArrayList<Product> getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public String showCartList() {
-        String list = "";
-        for (int i = 0; i < shoppingCart.size(); i++)
-            list += (i + 1 + ". ") + shoppingCart.get(i).toString() + (" IDR " + shoppingCart.get(i).getPrice()) + "\n";
-        return list;
-    }
-
-    public void clearCartList() {
-        shoppingCart.clear();
-    }
-
-    public int getBalance() {
-        return userController.findUser(logInAccount).getBalance();
-    }
-
-    public void setBalance(int balance) {
-        userController.findUser(logInAccount).setBalance(balance);
-        userController.saveUser();
-    }
-
-    public int getTotalPrice() {
-        int totalPrice = 0;
-        for (Product product : shoppingCart)
-            totalPrice += product.getPrice();
-        return totalPrice;
     }
 
 }

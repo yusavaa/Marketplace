@@ -4,22 +4,25 @@ import java.util.InputMismatchException;
 
 import controller.AccountController;
 import controller.ProductController;
+import controller.TransactionController;
 import util.InputUtil;
+import util.LoopUtil;
 
 public class MarketplaceView {
 
     private AccountController accountController = new AccountController();
     private ProductController productController = new ProductController();
+    private TransactionController transactionController = new TransactionController();
 
     public void marketplace() {
-        account();
-        home();
+        accountPage();
+        homePage();
     }
 
-    public void account() {
+    public void accountPage() {
         String action, username, password;
 
-        while (accountController.isLoop()) {
+        while (LoopUtil.isLoop()) {
             System.out.println("1. LogIn");
             System.out.println("2. Regiser");
             System.out.println("x. Quit");
@@ -39,13 +42,13 @@ public class MarketplaceView {
                 case "x":
                     System.exit(0);
                 default:
-                    System.out.println("Choose 1, 2, or x");
+                    System.out.println("Choose a number from 1 to 2, or x");
                     break;
             }
         }
     }
 
-    public void home() {
+    public void homePage() {
 
         while (true) {
             System.out.println("1. Add Product");
@@ -58,62 +61,48 @@ public class MarketplaceView {
 
             switch (action) {
                 case "1":
-                    addProduct();
+                    System.out.println(productController.showProductList());
+                    System.out.println(addProduct());
+                    InputUtil.resetInput();
                     break;
                 case "2":
-                    System.out.println(accountController.showCartList());
+                    System.out.println(transactionController.displayShoppingCart());
                     break;
                 case "3":
-                    checkout();
+                    System.out.println(transactionController.checkout());
                     break;
                 case "4":
                     System.out.println("IDR " + accountController.getBalance());
                     break;
                 case "5":
-                    topUpBalance();
+                    System.out.println(topUpBalance());
+                    InputUtil.resetInput();
                     break;
                 case "x":
                     System.exit(0);
                 default:
-                    System.out.println("Choose 1, 2, 3, 4 or x");
+                    System.out.println("Choose a number from 1 to 5, or x");
                     break;
             }
         }
     }
 
-    public void addProduct() {
-        System.out.println(productController.showProductList());
+    public String addProduct() {
         try {
-            int product = InputUtil.inputInt("Choose product");
-            System.out.println(accountController.addProductToCart(product));
+            int index = InputUtil.inputInt("Choose product");
+            return transactionController.addToShoppingCart(index);
         } catch (InputMismatchException e) {
-            System.out.println("Input a product number");
-        }
-        InputUtil.resetInput();
-    }
-
-    public void checkout() {
-        if (accountController.getShoppingCart().size() != 0) {
-            if (accountController.getBalance() >= accountController.getTotalPrice()) {
-                accountController.setBalance(accountController.getBalance() - accountController.getTotalPrice());
-                accountController.clearCartList();
-                System.out.println("Checkout success");
-            } else {
-                System.out.println("Not enough balance");
-            }
-        } else {
-            System.out.println("Add product to cart first");
+            return "Input a product number";
         }
     }
 
-    public void topUpBalance() {
+    public String topUpBalance() {
         try {
             int balance = InputUtil.inputInt("Input Balance IDR");
-            System.out.println(accountController.topUpBalance(balance));
+            return accountController.setBalance(balance);
         } catch (InputMismatchException e) {
-            System.out.println("Input must be a number");
+            return "Input must be a number";
         }
-        InputUtil.resetInput();
     }
 
 }

@@ -32,6 +32,10 @@ public class ProductController extends XMLController {
         return "Success add product";
     }
 
+    public Product getProduct(int index) {
+        return productList.get(index);
+    }
+
     public void clearProduct() {
         productList.clear();
     }
@@ -46,8 +50,9 @@ public class ProductController extends XMLController {
 
     public String showProductList() {
         String list = "";
-        for (int i = 0; i < productList.size(); i++)
-            list += (i + 1 + ". ") + productList.get(i).toString() + (" IDR " + productList.get(i).getPrice()) + "\n";
+        for (int i = 0; i < productList.size(); i++) {
+            list += i + 1 + ". " + getProduct(i).toString() + " IDR " + getProduct(i).getPrice() + "\n";
+        }
         return list;
     }
 

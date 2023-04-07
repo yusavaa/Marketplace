@@ -1,14 +1,14 @@
 package util;
 
 public class LoopUtil {
-    private boolean loop = true;
+    private  static boolean loop = true;
 
-    public boolean isLoop() {
+    public static boolean isLoop() {
         return loop;
     }
 
-    public void setLoop(boolean loop) {
-        this.loop = loop;
+    public static void setLoop(boolean loop) {
+        LoopUtil.loop = loop;
     }
 
 }
