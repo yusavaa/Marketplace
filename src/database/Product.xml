@@ -1,1 +1,1 @@
-<?xml version="1.0" ?><list><model.Product><id>01</id><name>Monitor</name><price>1600000</price></model.Product><model.Product><id>02</id><name>Keyboard</name><price>600000</price></model.Product></list>
+<?xml version="1.0" ?><list><model.Product><name>Indomie</name><price>3000</price><stock>30</stock></model.Product><model.Product><name>Ultra Milk</name><price>7000</price><stock>5</stock></model.Product></list>

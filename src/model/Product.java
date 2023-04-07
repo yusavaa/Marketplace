@@ -2,22 +2,14 @@ package model;
 
 public class Product {
 
-    private String id;
     private String name;
     private int price;
+    private int stock;
 
-    public Product(String id, String name, int price) {
-        this.id = id;
+    public Product(String name, int price, int stock) {
         this.name = name;
         this.price = price;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.stock = stock;
     }
 
     public String getName() {
@@ -36,8 +28,16 @@ public class Product {
         this.price = price;
     }
 
+    public int getStock() {
+        return stock;
+    }
+    
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    
     public String toString() {
         return name;
     }
-
+    
 }

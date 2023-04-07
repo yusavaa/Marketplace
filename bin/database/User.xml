@@ -1,1 +1,1 @@
-<?xml version="1.0" ?><list><model.User><id>01</id><username>Fath</username><password>Fath</password><balance>0</balance></model.User><model.User><id>02</id><username>Nafal</username><password>Nafal</password><balance>0</balance></model.User></list>
+<?xml version="1.0" ?><list><model.User><username>Fath</username><password>Fath123</password><balance>97000</balance></model.User><model.User><username>Nafal</username><password>Aban01</password><balance>0</balance></model.User></list>
