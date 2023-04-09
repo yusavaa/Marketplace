@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 
 import controller.AccountController;
 import controller.ProductController;
-import controller.TransactionController;
 import util.InputUtil;
 import util.LoopUtil;
 
@@ -12,7 +11,6 @@ public class MarketplaceView {
 
     private AccountController accountController = new AccountController();
     private ProductController productController = new ProductController();
-    private TransactionController transactionController = new TransactionController();
 
     public void marketplace() {
         accountPage();
@@ -66,10 +64,10 @@ public class MarketplaceView {
                     InputUtil.resetInput();
                     break;
                 case "2":
-                    System.out.println(transactionController.displayShoppingCart());
+                    System.out.println(accountController.displayShoppingCart());
                     break;
                 case "3":
-                    System.out.println(transactionController.checkout());
+                    System.out.println(accountController.checkout());
                     break;
                 case "4":
                     System.out.println("IDR " + accountController.getBalance());
@@ -90,7 +88,7 @@ public class MarketplaceView {
     public String addProduct() {
         try {
             int index = InputUtil.inputInt("Choose product");
-            return transactionController.addToShoppingCart(index);
+            return accountController.addToShoppingCart(index);
         } catch (InputMismatchException e) {
             return "Input a product number";
         }
@@ -99,7 +97,7 @@ public class MarketplaceView {
     public String topUpBalance() {
         try {
             int balance = InputUtil.inputInt("Input Balance IDR");
-            return accountController.setBalance(balance);
+            return accountController.topUpBalance(balance);
         } catch (InputMismatchException e) {
             return "Input must be a number";
         }

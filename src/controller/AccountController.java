@@ -1,15 +1,19 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.User;
+import model.*;
 import util.LoopUtil;
 
 public class AccountController {
 
+    private ProductController productController = new ProductController();
     private UserController userController = new UserController();
+    
+    private ArrayList<Product> shoppingCart = new ArrayList<>();
     private HashMap<String, String> account = new HashMap<>();
-    static User targetUser;
+    private User targetUser;
 
     public AccountController() {
         mappingAccount();
@@ -61,16 +65,57 @@ public class AccountController {
         return targetUser.getBalance();
     }
 
-    public String setBalance(int balance) {
+    public String topUpBalance(int balance) {
         if (targetUser == null)
-            return "Username not found";
+        return "Username not found";
         if (balance > 0) {
-            balance += this.targetUser.getBalance();
+            balance += targetUser.getBalance();
             targetUser.setBalance(balance);
             userController.saveUser();
             return "Top Up success";
         }
         return "Minimum Top Up is IDR 1";
+    }
+
+    // >----- TransactionController -----<
+
+    public ArrayList<Product> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public String addToShoppingCart(int index) {
+        shoppingCart.add(productController.loadProduct().get(index - 1));
+        return "Success add product to cart";
+    }
+
+    public String displayShoppingCart() {
+        String list = "";
+        for (int i = 0; i < shoppingCart.size(); i++)
+            list += (i + 1 + ". ") + shoppingCart.get(i).toString() + (" IDR " + shoppingCart.get(i).getPrice()) + "\n";
+        return list;
+    }
+
+    public void clearShoppingCart() {
+        shoppingCart.clear();
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (Product product : shoppingCart)
+            totalPrice += product.getPrice();
+        return totalPrice;
+    }
+
+    public String checkout() {
+        if (getShoppingCart().size() == 0)
+            return "Add product to cart first";
+        if (targetUser.getBalance() >= getTotalPrice()) {
+            targetUser.setBalance(targetUser.getBalance() - getTotalPrice());
+            userController.saveUser();
+            clearShoppingCart();
+            return "Checkout success";
+        }
+        return "Not enough balance";
     }
 
 }
